@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% from "admin/macros.html" import bottom_nav %}
+{% block title %}Edit Scholarship - Scholarship Bridge{% endblock %}
+{% block body %}
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-icon"><i class="fas fa-graduation-cap"></i></div>
+      <div class="meta">
+        <h3>Scholarship Bridge</h3>
+        <p>Admin Console</p>
+      </div>
+      <button class="sidebar-toggle" type="button"><i class="fas fa-bars"></i></button>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="{{ url_for('dashboard') }}" class="sidebar-link"><i class="fas fa-chart-pie"></i><span>Dashboard</span></a>
+      <a href="{{ url_for('scholarships') }}" class="sidebar-link active"><i class="fas fa-graduation-cap"></i><span>Scholarships</span></a>
+      <a href="{{ url_for('students') }}" class="sidebar-link"><i class="fas fa-users"></i><span>Students</span></a>
+      <a href="{{ url_for('applications') }}" class="sidebar-link"><i class="fas fa-file-alt"></i><span>Applications</span></a>
+      <a href="{{ url_for('notifications') }}" class="sidebar-link"><i class="fas fa-bell"></i><span>Notifications</span></a>
+      <a href="{{ url_for('settings') }}" class="sidebar-link"><i class="fas fa-cog"></i><span>Settings</span></a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="avatar">{{ session.admin_name[:2]|upper }}</div>
+        <div>
+          <strong>{{ session.admin_name }}</strong>
+          <span>Operations Lead</span>
+        </div>
+      </div>
+      <a href="{{ url_for('admin_logout') }}" class="sidebar-link"><i class="fas fa-right-from-bracket"></i><span>Logout</span></a>
+    </div>
+  </aside>
+
+  <main class="main-panel">
+    <div class="admin-shell">
+      <header class="admin-header">
+        <div class="header-actions">
+          <a href="{{ url_for('scholarship_detail', sch_id=scholarship.id) }}" class="back-btn"><i class="fas fa-arrow-left"></i></a>
+        </div>
+        <h1>Edit Scholarship</h1>
+        <div class="header-actions"></div>
+      </header>
+
+      <div class="admin-content">
+        <section class="panel-card">
+          <div class="panel-head">
+            <h3>Update program</h3>
+            <span class="pill">Editing</span>
+          </div>
+          <form method="POST">
+            <div class="form-grid">
+              <div class="field-group full-wide">
+                <label>Title</label>
+                <input type="text" name="title" value="{{ scholarship.title }}" required>
+              </div>
+              <div class="field-group">
+                <label>University</label>
+                <input type="text" name="university" value="{{ scholarship.university }}" required>
+              </div>
+              <div class="field-group">
+                <label>Country</label>
+                <input type="text" name="country" value="{{ scholarship.country }}" required>
+              </div>
+              <div class="field-group">
+                <label>Degree Level</label>
+                <select name="degree_level" required>
+                  {% for lvl in ["Bachelor's", "Master's", "PhD"] %}
+                  <option {% if scholarship.degree_level == lvl %}selected{% endif %}>{{ lvl }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="field-group">
+                <label>Vacancies</label>
+                <input type="number" name="vacancies" value="{{ scholarship.vacancies }}" min="0">
+              </div>
+              <div class="field-group">
+                <label>Deadline</label>
+                <input type="date" name="deadline" value="{{ scholarship.deadline }}" required>
+              </div>
+              <div class="field-group">
+                <label>Funding Type</label>
+                <select name="funding_type" required>
+                  {% for ft in ["Fully Funded", "Partially Funded", "Self Funded"] %}
+                  <option {% if scholarship.funding_type == ft %}selected{% endif %}>{{ ft }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="field-group">
+                <label>Status</label>
+                <select name="status" required>
+                  {% for st in ["Open", "Closing Soon", "Closed"] %}
+                  <option {% if scholarship.status == st %}selected{% endif %}>{{ st }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="field-group full-wide">
+                <label>Description</label>
+                <textarea name="description">{{ scholarship.description or '' }}</textarea>
+              </div>
+              <div class="field-group full-wide">
+                <label>Benefits (pipe-separated)</label>
+                <textarea name="benefits">{{ scholarship.benefits or '' }}</textarea>
+              </div>
+              <div class="field-group full-wide">
+                <label>Requirements (pipe-separated)</label>
+                <textarea name="requirements">{{ scholarship.requirements or '' }}</textarea>
+              </div>
+              <div class="field-group full-wide">
+                <label>Image URL</label>
+                <input type="url" name="image_url" value="{{ scholarship.image_url }}">
+              </div>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn-primary"><i class="fas fa-save"></i> Update Scholarship</button>
+            </div>
+          </form>
+        </section>
+      </div>
+
+      {{ bottom_nav('scholarships') }}
+    </div>
+  </main>
+</div>
+{% endblock %}

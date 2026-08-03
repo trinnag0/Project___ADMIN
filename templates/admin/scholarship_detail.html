@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% from "admin/macros.html" import bottom_nav, status_badge %}
+{% block title %}{{ scholarship.title }} - Scholarship Bridge{% endblock %}
+{% block body %}
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-icon"><i class="fas fa-graduation-cap"></i></div>
+      <div class="meta">
+        <h3>Scholarship Bridge</h3>
+        <p>Admin Console</p>
+      </div>
+      <button class="sidebar-toggle" type="button" aria-expanded="true"><i class="fas fa-bars"></i></button>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="{{ url_for('dashboard') }}" class="sidebar-link"><i class="fas fa-chart-pie"></i><span>Dashboard</span></a>
+      <a href="{{ url_for('scholarships') }}" class="sidebar-link active"><i class="fas fa-graduation-cap"></i><span>Scholarships</span></a>
+      <a href="{{ url_for('students') }}" class="sidebar-link"><i class="fas fa-users"></i><span>Students</span></a>
+      <a href="{{ url_for('applications') }}" class="sidebar-link"><i class="fas fa-file-alt"></i><span>Applications</span></a>
+      <a href="{{ url_for('notifications') }}" class="sidebar-link"><i class="fas fa-bell"></i><span>Notifications</span></a>
+      <a href="{{ url_for('settings') }}" class="sidebar-link"><i class="fas fa-cog"></i><span>Settings</span></a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="avatar">{{ session.admin_name[:2]|upper }}</div>
+        <div>
+          <strong>{{ session.admin_name }}</strong>
+          <span>Operations Lead</span>
+        </div>
+      </div>
+      <a href="{{ url_for('admin_logout') }}" class="sidebar-link"><i class="fas fa-right-from-bracket"></i><span>Logout</span></a>
+    </div>
+  </aside>
+
+  <main class="main-panel">
+    <div class="admin-shell">
+      <header class="admin-header">
+        <div class="header-actions">
+          <a href="{{ url_for('scholarships') }}" class="back-btn"><i class="fas fa-arrow-left"></i></a>
+        </div>
+        <h1>Program Details</h1>
+        <div class="header-actions"></div>
+      </header>
+
+      <div class="admin-content">
+        <img class="hero-image" src="{{ scholarship.image_url }}" alt="{{ scholarship.title }}">
+
+        <h2 class="detail-title">{{ scholarship.title }}</h2>
+        <p class="detail-subtitle">{{ scholarship.university }} · {{ scholarship.country }}</p>
+
+        <div class="tag-row">
+          <span class="badge review">{{ scholarship.degree_level }}</span>
+          <span class="badge open">{{ scholarship.funding_type }}</span>
+          {{ status_badge(scholarship.status) }}
+        </div>
+
+        <div class="detail-section">
+          <h3>Description</h3>
+          <p>{{ scholarship.description or 'No description available.' }}</p>
+        </div>
+
+        <div class="detail-section">
+          <h3>Benefits</h3>
+          <ul>
+            {% for item in (scholarship.benefits or '').split('|') if item.strip() %}
+            <li>{{ item.strip() }}</li>
+            {% else %}
+            <li>Benefits information not specified.</li>
+            {% endfor %}
+          </ul>
+        </div>
+
+        <div class="detail-section">
+          <h3>Requirements</h3>
+          <ul>
+            {% for item in (scholarship.requirements or '').split('|') if item.strip() %}
+            <li>{{ item.strip() }}</li>
+            {% else %}
+            <li>Requirements not specified.</li>
+            {% endfor %}
+          </ul>
+        </div>
+
+        <div class="detail-section">
+          <div class="info-row"><span class="label">Vacancies</span><span class="val">{{ scholarship.vacancies }}</span></div>
+          <div class="info-row"><span class="label">Deadline</span><span class="val">{{ scholarship.deadline }}</span></div>
+        </div>
+
+        <div class="action-row">
+          <a href="{{ url_for('edit_scholarship', sch_id=scholarship.id) }}" class="btn-edit"><i class="fas fa-pen"></i> Edit</a>
+          <form method="POST" action="{{ url_for('delete_scholarship', sch_id=scholarship.id) }}" onsubmit="return confirm('Delete this scholarship?');">
+            <button type="submit" class="btn-delete-icon"><i class="fas fa-trash"></i></button>
+          </form>
+        </div>
+      </div>
+
+      {{ bottom_nav('scholarships') }}
+    </div>
+  </main>
+</div>
+{% endblock %}

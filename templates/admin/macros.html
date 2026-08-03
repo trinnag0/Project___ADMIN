@@ -1,0 +1,29 @@
+{% macro status_badge(status) %}
+  {% set s = status|lower|replace(' ', '-') %}
+  <span class="badge {{ s }}">{{ status }}</span>
+{% endmacro %}
+
+{% macro bottom_nav(active) %}
+<nav class="bottom-nav">
+  <a href="{{ url_for('dashboard') }}" class="nav-item {% if active == 'dashboard' %}active{% endif %}">
+    <i class="fas fa-chart-pie"></i>
+    <span>Dashboard</span>
+  </a>
+  <a href="{{ url_for('scholarships') }}" class="nav-item {% if active == 'scholarships' %}active{% endif %}">
+    <i class="fas fa-graduation-cap"></i>
+    <span>Scholarships</span>
+  </a>
+  <a href="{{ url_for('students') }}" class="nav-item {% if active == 'students' %}active{% endif %}">
+    <i class="fas fa-users"></i>
+    <span>Students</span>
+  </a>
+  <a href="{{ url_for('notifications') }}" class="nav-item {% if active == 'notifications' %}active{% endif %}">
+    <i class="fas fa-bell"></i>
+    <span>Alerts</span>
+  </a>
+  <a href="{{ url_for('more') }}" class="nav-item {% if active == 'more' %}active{% endif %}">
+    <i class="fas fa-ellipsis-h"></i>
+    <span>More</span>
+  </a>
+</nav>
+{% endmacro %}

@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% from "admin/macros.html" import bottom_nav, status_badge %}
+{% block title %}Scholarships - Scholarship Bridge{% endblock %}
+{% block body %}
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-icon"><i class="fas fa-graduation-cap"></i></div>
+      <div class="meta">
+        <h3>Scholarship Bridge</h3>
+        <p>Admin Console</p>
+      </div>
+      <button class="sidebar-toggle" type="button"><i class="fas fa-bars"></i></button>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="{{ url_for('dashboard') }}" class="sidebar-link"><i class="fas fa-chart-pie"></i><span>Dashboard</span></a>
+      <a href="{{ url_for('scholarships') }}" class="sidebar-link active"><i class="fas fa-graduation-cap"></i><span>Scholarships</span></a>
+      <a href="{{ url_for('students') }}" class="sidebar-link"><i class="fas fa-users"></i><span>Students</span></a>
+      <a href="{{ url_for('applications') }}" class="sidebar-link"><i class="fas fa-file-alt"></i><span>Applications</span></a>
+      <a href="{{ url_for('notifications') }}" class="sidebar-link"><i class="fas fa-bell"></i><span>Notifications</span></a>
+      <a href="{{ url_for('settings') }}" class="sidebar-link"><i class="fas fa-cog"></i><span>Settings</span></a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="avatar">{{ session.admin_name[:2]|upper }}</div>
+        <div>
+          <strong>{{ session.admin_name }}</strong>
+          <span>Operations Lead</span>
+        </div>
+      </div>
+      <a href="{{ url_for('admin_logout') }}" class="sidebar-link"><i class="fas fa-right-from-bracket"></i><span>Logout</span></a>
+    </div>
+  </aside>
+
+  <main class="main-panel">
+    <div class="admin-shell">
+      <header class="admin-header">
+        <div>
+          <div class="eyebrow">Programs</div>
+          <h1>Scholarships</h1>
+        </div>
+        <div class="header-actions">
+          <a href="{{ url_for('add_scholarship') }}" class="header-btn"><i class="fas fa-plus"></i></a>
+        </div>
+      </header>
+
+      <div class="admin-content">
+        <form method="GET" class="search-bar">
+          <i class="fas fa-search"></i>
+          <input type="text" name="q" value="{{ search }}" placeholder="Search scholarships...">
+        </form>
+
+        <form method="GET" id="filterForm" class="filter-stack">
+          <input type="hidden" name="q" value="{{ search }}">
+          <div class="filter-chips">
+            <button type="submit" name="level" value="" class="chip {% if not level %}active{% endif %}">All</button>
+            <button type="submit" name="level" value="Bachelor's" class="chip {% if level == "Bachelor's" %}active{% endif %}">Bachelor's</button>
+            <button type="submit" name="level" value="Master's" class="chip {% if level == "Master's" %}active{% endif %}">Master's</button>
+            <button type="submit" name="level" value="PhD" class="chip {% if level == 'PhD' %}active{% endif %}">PhD</button>
+          </div>
+          <div class="filter-grid">
+            <select name="country" class="mini-select">
+              <option value="">All Countries</option>
+              {% for c in countries %}
+              <option value="{{ c.country }}" {% if country == c.country %}selected{% endif %}>{{ c.country }}</option>
+              {% endfor %}
+            </select>
+            <select name="sort" class="mini-select">
+              <option value="newest" {% if sort == 'newest' %}selected{% endif %}>Newest</option>
+              <option value="deadline" {% if sort == 'deadline' %}selected{% endif %}>Deadline</option>
+              <option value="title" {% if sort == 'title' %}selected{% endif %}>Title</option>
+            </select>
+            <button type="submit" class="btn-primary compact">Apply</button>
+          </div>
+        </form>
+
+        {% for s in scholarships %}
+        <a href="{{ url_for('scholarship_detail', sch_id=s.id) }}">
+          <div class="list-card">
+            <img class="thumb" src="{{ s.image_url }}" alt="">
+            <div class="info">
+              <h3>{{ s.title }}</h3>
+              <p>{{ s.university }}</p>
+              <div class="meta">{{ s.country }} · {{ s.degree_level }} · {{ s.deadline }}</div>
+            </div>
+            {{ status_badge(s.status) }}
+          </div>
+        </a>
+        {% else %}
+        <div class="empty-state">
+          <i class="fas fa-graduation-cap"></i>
+          <p>No scholarships found.</p>
+        </div>
+        {% endfor %}
+      </div>
+
+      <a href="{{ url_for('add_scholarship') }}" class="fab"><i class="fas fa-plus"></i></a>
+      {{ bottom_nav('scholarships') }}
+    </div>
+  </main>
+</div>
+{% endblock %}

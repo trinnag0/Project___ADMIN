@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+{% from "admin/macros.html" import bottom_nav, status_badge %}
+{% block title %}Dashboard - Scholarship Bridge{% endblock %}
+{% block body %}
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-icon"><i class="fas fa-graduation-cap"></i></div>
+      <div class="meta">
+        <h3>Scholarship Bridge</h3>
+        <p>Admin Console</p>
+      </div>
+      <button class="sidebar-toggle" type="button"><i class="fas fa-bars"></i></button>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="{{ url_for('dashboard') }}" class="sidebar-link active"><i class="fas fa-chart-pie"></i><span>Dashboard</span></a>
+      <a href="{{ url_for('scholarships') }}" class="sidebar-link"><i class="fas fa-graduation-cap"></i><span>Scholarships</span></a>
+      <a href="{{ url_for('students') }}" class="sidebar-link"><i class="fas fa-users"></i><span>Students</span></a>
+      <a href="{{ url_for('applications') }}" class="sidebar-link"><i class="fas fa-file-alt"></i><span>Applications</span></a>
+      <a href="{{ url_for('notifications') }}" class="sidebar-link"><i class="fas fa-bell"></i><span>Notifications</span></a>
+      <a href="{{ url_for('settings') }}" class="sidebar-link"><i class="fas fa-cog"></i><span>Settings</span></a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="avatar">{{ session.admin_name[:2]|upper }}</div>
+        <div>
+          <strong>{{ session.admin_name }}</strong>
+          <span>Operations Lead</span>
+        </div>
+      </div>
+      <a href="{{ url_for('admin_logout') }}" class="sidebar-link"><i class="fas fa-right-from-bracket"></i><span>Logout</span></a>
+    </div>
+  </aside>
+
+  <main class="main-panel">
+    <div class="admin-shell">
+      <header class="admin-header">
+        <div>
+          <div class="eyebrow">Operations overview</div>
+          <h1>Dashboard</h1>
+        </div>
+        <div class="header-actions">
+          <a href="{{ url_for('notifications') }}" class="header-btn"><i class="fas fa-bell"></i></a>
+        </div>
+      </header>
+
+      <div class="admin-content">
+        <section class="hero-card">
+          <div>
+            <div class="eyebrow">Welcome back</div>
+            <h2>{{ session.admin_name }}</h2>
+            <p>Track scholarship performance, applications, and student engagement from one refined workspace.</p>
+          </div>
+          <div class="hero-metric">
+            <strong>{{ stats.total_scholarships }}</strong>
+            <span>Programs live</span>
+          </div>
+        </section>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="label">Total Scholarships</div>
+            <div class="value">{{ stats.total_scholarships }}</div>
+            <div class="trend up"><i class="fas fa-arrow-up"></i> 12% this month</div>
+          </div>
+          <div class="stat-card">
+            <div class="label">Active Scholarships</div>
+            <div class="value">{{ stats.active_scholarships }}</div>
+            <div class="trend up"><i class="fas fa-arrow-up"></i> 8% growth</div>
+          </div>
+          <div class="stat-card">
+            <div class="label">Closing Soon</div>
+            <div class="value">{{ stats.closing_soon }}</div>
+            <div class="trend down"><i class="fas fa-arrow-down"></i> 3% slower</div>
+          </div>
+          <div class="stat-card">
+            <div class="label">Expired</div>
+            <div class="value">{{ stats.expired_scholarships }}</div>
+            <div class="trend up"><i class="fas fa-arrow-up"></i> 5% alerts</div>
+          </div>
+          <div class="stat-card">
+            <div class="label">Registered Students</div>
+            <div class="value">{{ stats.registered_students }}</div>
+            <div class="trend up"><i class="fas fa-arrow-up"></i> 15% engaged</div>
+          </div>
+          <div class="stat-card">
+            <div class="label">Total Applications</div>
+            <div class="value">{{ stats.total_applications }}</div>
+            <div class="trend up"><i class="fas fa-arrow-up"></i> 22% momentum</div>
+          </div>
+        </div>
+
+        <section class="panel-card">
+          <div class="panel-head">
+            <h3>Application flow</h3>
+            <span class="pill">Live</span>
+          </div>
+          <div class="chart-bars">
+            <div class="bar" style="height: 46%"></div>
+            <div class="bar" style="height: 62%"></div>
+            <div class="bar" style="height: 74%"></div>
+            <div class="bar" style="height: 56%"></div>
+            <div class="bar" style="height: 88%"></div>
+            <div class="bar" style="height: 76%"></div>
+            <div class="bar" style="height: 92%"></div>
+          </div>
+        </section>
+
+        <h3 class="section-title">Recent scholarships</h3>
+        {% for s in recent_scholarships %}
+        <a href="{{ url_for('scholarship_detail', sch_id=s.id) }}">
+          <div class="list-card">
+            <img class="thumb" src="{{ s.image_url }}" alt="">
+            <div class="info">
+              <h3>{{ s.title }}</h3>
+              <p>{{ s.university }}</p>
+              <div class="meta">{{ s.country }} · Deadline {{ s.deadline }}</div>
+            </div>
+            {{ status_badge(s.status) }}
+          </div>
+        </a>
+        {% endfor %}
+      </div>
+
+      {{ bottom_nav('dashboard') }}
+    </div>
+  </main>
+</div>
+{% endblock %}

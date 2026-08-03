@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% from "admin/macros.html" import bottom_nav, status_badge %}
+{% block title %}Applications - Scholarship Bridge{% endblock %}
+{% block body %}
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-icon"><i class="fas fa-graduation-cap"></i></div>
+      <div class="meta">
+        <h3>Scholarship Bridge</h3>
+        <p>Admin Console</p>
+      </div>
+      <button class="sidebar-toggle" type="button"><i class="fas fa-bars"></i></button>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="{{ url_for('dashboard') }}" class="sidebar-link"><i class="fas fa-chart-pie"></i><span>Dashboard</span></a>
+      <a href="{{ url_for('scholarships') }}" class="sidebar-link"><i class="fas fa-graduation-cap"></i><span>Scholarships</span></a>
+      <a href="{{ url_for('students') }}" class="sidebar-link"><i class="fas fa-users"></i><span>Students</span></a>
+      <a href="{{ url_for('applications') }}" class="sidebar-link active"><i class="fas fa-file-alt"></i><span>Applications</span></a>
+      <a href="{{ url_for('notifications') }}" class="sidebar-link"><i class="fas fa-bell"></i><span>Notifications</span></a>
+      <a href="{{ url_for('settings') }}" class="sidebar-link"><i class="fas fa-cog"></i><span>Settings</span></a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="avatar">{{ session.admin_name[:2]|upper }}</div>
+        <div>
+          <strong>{{ session.admin_name }}</strong>
+          <span>Operations Lead</span>
+        </div>
+      </div>
+      <a href="{{ url_for('admin_logout') }}" class="sidebar-link"><i class="fas fa-right-from-bracket"></i><span>Logout</span></a>
+    </div>
+  </aside>
+
+  <main class="main-panel">
+    <div class="admin-shell">
+      <header class="admin-header">
+        <div class="header-actions">
+          <a href="{{ url_for('dashboard') }}" class="back-btn"><i class="fas fa-arrow-left"></i></a>
+        </div>
+        <h1>Applications</h1>
+        <div class="header-actions"></div>
+      </header>
+
+      <div class="admin-content">
+        <div class="tabs">
+          <a href="{{ url_for('applications', tab='All') }}" class="tab {% if tab == 'All' %}active{% endif %}">All</a>
+          <a href="{{ url_for('applications', tab='Pending') }}" class="tab {% if tab == 'Pending' %}active{% endif %}">Pending</a>
+          <a href="{{ url_for('applications', tab='Under Review') }}" class="tab {% if tab == 'Under Review' %}active{% endif %}">Under Review</a>
+        </div>
+
+        {% for app in applications %}
+        <div class="list-card">
+          <div class="info">
+            <h3>{{ app.scholarship_title }}</h3>
+            <p>{{ app.student_name }}</p>
+            <div class="meta">Applied: {{ app.applied_on }}</div>
+          </div>
+          {{ status_badge(app.status) }}
+        </div>
+        {% else %}
+        <div class="empty-state">
+          <i class="fas fa-file-alt"></i>
+          <p>No applications in this category.</p>
+        </div>
+        {% endfor %}
+      </div>
+
+      {{ bottom_nav('more') }}
+    </div>
+  </main>
+</div>
+{% endblock %}

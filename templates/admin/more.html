@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% from "admin/macros.html" import bottom_nav %}
+{% block title %}More - Scholarship Bridge{% endblock %}
+{% block body %}
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-icon"><i class="fas fa-graduation-cap"></i></div>
+      <div class="meta">
+        <h3>Scholarship Bridge</h3>
+        <p>Admin Console</p>
+      </div>
+      <button class="sidebar-toggle" type="button"><i class="fas fa-bars"></i></button>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="{{ url_for('dashboard') }}" class="sidebar-link"><i class="fas fa-chart-pie"></i><span>Dashboard</span></a>
+      <a href="{{ url_for('scholarships') }}" class="sidebar-link"><i class="fas fa-graduation-cap"></i><span>Scholarships</span></a>
+      <a href="{{ url_for('students') }}" class="sidebar-link"><i class="fas fa-users"></i><span>Students</span></a>
+      <a href="{{ url_for('applications') }}" class="sidebar-link"><i class="fas fa-file-alt"></i><span>Applications</span></a>
+      <a href="{{ url_for('notifications') }}" class="sidebar-link"><i class="fas fa-bell"></i><span>Notifications</span></a>
+      <a href="{{ url_for('settings') }}" class="sidebar-link"><i class="fas fa-cog"></i><span>Settings</span></a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="avatar">{{ session.admin_name[:2]|upper }}</div>
+        <div>
+          <strong>{{ session.admin_name }}</strong>
+          <span>Operations Lead</span>
+        </div>
+      </div>
+      <a href="{{ url_for('admin_logout') }}" class="sidebar-link"><i class="fas fa-right-from-bracket"></i><span>Logout</span></a>
+    </div>
+  </aside>
+
+  <main class="main-panel">
+    <div class="admin-shell">
+      <header class="admin-header">
+        <div>
+          <div class="eyebrow">More</div>
+          <h1>Workspace</h1>
+        </div>
+        <div class="header-actions"></div>
+      </header>
+
+      <div class="admin-content">
+        <h3 class="section-title">Admin capabilities</h3>
+        <div class="capability-grid">
+          <div class="capability-card">
+            <i class="fas fa-graduation-cap"></i>
+            <h4>Add / Update / Remove Scholarships</h4>
+          </div>
+          <div class="capability-card">
+            <i class="fas fa-users"></i>
+            <h4>Manage Students</h4>
+          </div>
+          <div class="capability-card">
+            <i class="fas fa-file-alt"></i>
+            <h4>View Applications</h4>
+          </div>
+          <div class="capability-card">
+            <i class="fas fa-bell"></i>
+            <h4>Send Notifications</h4>
+          </div>
+          <div class="capability-card">
+            <i class="fas fa-chart-bar"></i>
+            <h4>View Reports & Analytics</h4>
+          </div>
+          <div class="capability-card">
+            <i class="fas fa-shield-alt"></i>
+            <h4>Secure Management</h4>
+          </div>
+        </div>
+
+        <a href="{{ url_for('applications') }}" class="settings-item">
+          <div class="icon-wrap"><i class="fas fa-file-alt"></i></div>
+          <div class="text"><h4>Applications</h4><p>Review pending applications</p></div>
+          <i class="fas fa-chevron-right arrow"></i>
+        </a>
+
+        <a href="{{ url_for('settings') }}" class="settings-item">
+          <div class="icon-wrap"><i class="fas fa-cog"></i></div>
+          <div class="text"><h4>Settings</h4><p>Profile, password & system</p></div>
+          <i class="fas fa-chevron-right arrow"></i>
+        </a>
+
+        <a href="{{ url_for('notifications') }}" class="settings-item">
+          <div class="icon-wrap"><i class="fas fa-bell"></i></div>
+          <div class="text"><h4>Notification Settings</h4><p>Manage alert preferences</p></div>
+          <i class="fas fa-chevron-right arrow"></i>
+        </a>
+
+        <div class="promo-banner" style="margin-top:20px;">
+          <i class="fas fa-shield-alt"></i>
+          <h3>Secure. Manage. Make an Impact.</h3>
+          <p>Powering Scholarships, Building Futures.</p>
+        </div>
+      </div>
+
+      {{ bottom_nav('more') }}
+    </div>
+  </main>
+</div>
+{% endblock %}
