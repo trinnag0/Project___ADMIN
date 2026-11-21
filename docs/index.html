@@ -75,10 +75,17 @@
           </section>
 
           <section id="scholarshipsSection" class="section-view" hidden>
-            <h3 class="section-title">Scholarships</h3>
-            <div class="list-card"><div class="info"><h3>DAAD Scholarship Program 2025</h3><p>Technical University of Munich · Germany</p></div><span class="status open">Open</span></div>
-            <div class="list-card"><div class="info"><h3>Chevening Scholarship</h3><p>University of Oxford · United Kingdom</p></div><span class="status closing">Closing Soon</span></div>
-            <div class="list-card"><div class="info"><h3>MEXT Research Scholarship</h3><p>University of Tokyo · Japan</p></div><span class="status open">Open</span></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px">
+              <h3 class="section-title" style="margin:0">Scholarships</h3>
+              <button id="addScholarshipButton" class="btn-primary" style="width:auto;padding:11px 16px"><i class="fas fa-plus"></i> Add scholarship</button>
+            </div>
+            <form id="scholarshipForm" class="panel-card" style="margin-bottom:16px" hidden>
+              <div class="form-group"><label for="scholarshipTitle">Title</label><input id="scholarshipTitle" required></div>
+              <div class="form-group"><label for="scholarshipUniversity">University</label><input id="scholarshipUniversity" required></div>
+              <div class="form-group"><label for="scholarshipCountry">Country</label><input id="scholarshipCountry" required></div>
+              <button type="submit" class="btn-primary">Save scholarship</button>
+            </form>
+            <div id="scholarshipList"></div>
           </section>
 
           <section id="studentsSection" class="section-view" hidden>
@@ -118,7 +125,7 @@
       const username = document.getElementById("username").value.trim();
       const password = document.getElementById("password").value;
       if (username === "admin" && password === "admin123") {
-        sessionStorage.setItem("adminDemo", "true");
+            localStorage.setItem("adminDemo", "true");
         showAdmin();
       } else {
         loginError.hidden = false;
@@ -126,7 +133,7 @@
     });
 
     document.getElementById("logoutButton").addEventListener("click", () => {
-      sessionStorage.removeItem("adminDemo");
+      localStorage.removeItem("adminDemo");
       adminView.hidden = true;
       loginView.hidden = false;
     });
@@ -142,7 +149,58 @@
       });
     });
 
-    if (sessionStorage.getItem("adminDemo") === "true") showAdmin();
+    const defaultScholarships = [
+      { id: 1, title: "DAAD Scholarship Program 2025", university: "Technical University of Munich", country: "Germany", status: "Open" },
+      { id: 2, title: "Chevening Scholarship", university: "University of Oxford", country: "United Kingdom", status: "Closing Soon" },
+      { id: 3, title: "MEXT Research Scholarship", university: "University of Tokyo", country: "Japan", status: "Open" }
+    ];
+
+    let scholarships = JSON.parse(localStorage.getItem("scholarships") || "null") || defaultScholarships;
+
+    function renderScholarships() {
+      const list = document.getElementById("scholarshipList");
+      list.innerHTML = scholarships.map((item) => `
+        <div class="list-card">
+          <div class="info">
+            <h3>${item.title.replace(/</g, "&lt;")}</h3>
+            <p>${item.university.replace(/</g, "&lt;")} · ${item.country.replace(/</g, "&lt;")}</p>
+          </div>
+          <span class="status ${item.status === "Open" ? "open" : "closing"}">${item.status}</span>
+          <button class="btn-danger delete-scholarship" data-id="${item.id}" title="Delete" style="margin-left:12px"><i class="fas fa-trash"></i></button>
+        </div>
+      `).join("");
+      document.querySelectorAll(".delete-scholarship").forEach((button) => {
+        button.addEventListener("click", () => {
+          if (!confirm("Delete this scholarship?")) return;
+          scholarships = scholarships.filter((item) => item.id !== Number(button.dataset.id));
+          localStorage.setItem("scholarships", JSON.stringify(scholarships));
+          renderScholarships();
+        });
+      });
+    }
+
+    document.getElementById("addScholarshipButton").addEventListener("click", () => {
+      document.getElementById("scholarshipForm").hidden =
+        !document.getElementById("scholarshipForm").hidden;
+    });
+
+    document.getElementById("scholarshipForm").addEventListener("submit", (event) => {
+      event.preventDefault();
+      scholarships.push({
+        id: Date.now(),
+        title: document.getElementById("scholarshipTitle").value.trim(),
+        university: document.getElementById("scholarshipUniversity").value.trim(),
+        country: document.getElementById("scholarshipCountry").value.trim(),
+        status: "Open"
+      });
+      localStorage.setItem("scholarships", JSON.stringify(scholarships));
+      event.target.reset();
+      event.target.hidden = true;
+      renderScholarships();
+    });
+
+    renderScholarships();
+    if (localStorage.getItem("adminDemo") === "true") showAdmin();
   </script>
 </body>
 </html>

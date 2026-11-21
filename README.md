@@ -35,14 +35,14 @@ Open **http://localhost:5000/admin**
 4. Start: `gunicorn app:app`
 5. Set `SECRET_KEY` environment variable
 
-## Live GitHub Pages demo
+## Live GitHub Pages admin
 
 The static admin interface is published at:
 **https://trinnag0.github.io/Project___ADMIN/**
 
 Demo login: `admin` / `admin123`
 
-GitHub Pages hosts the static demo only. The Flask/SQLite application requires a server hosting service such as Render.
+GitHub Pages hosts the complete static demo. Its login state and data are stored in the browser, so no Render service or separate server is required.
 
 ## Key screens
 
