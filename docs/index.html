@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Scholarship Bridge - Admin</title>
+  <link rel="stylesheet" href="assets/admin.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+  <div id="loginView" class="login-body">
+    <div class="login-card">
+      <div class="login-brand">
+        <div class="icon"><i class="fas fa-graduation-cap"></i></div>
+        <h1>Scholarship Bridge</h1>
+        <p>Admin Portal - Sign in to manage scholarships</p>
+      </div>
+      <div id="loginError" class="flash error" hidden>Invalid username or password.</div>
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input id="username" type="text" placeholder="Enter username" required autofocus>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input id="password" type="password" placeholder="Enter password" required>
+        </div>
+        <button type="submit" class="btn-primary"><i class="fas fa-right-to-bracket"></i> Login</button>
+      </form>
+      <p style="text-align:center;margin-top:16px;font-size:12px;color:#64748b;">Demo: admin / admin123</p>
+    </div>
+  </div>
+
+  <div id="adminView" class="app-shell" hidden>
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-icon"><i class="fas fa-graduation-cap"></i></div>
+        <div class="meta"><h3>Scholarship Bridge</h3><p>Admin Console</p></div>
+      </div>
+      <nav class="sidebar-nav">
+        <button class="sidebar-link active" data-section="dashboard"><i class="fas fa-chart-pie"></i><span>Dashboard</span></button>
+        <button class="sidebar-link" data-section="scholarships"><i class="fas fa-graduation-cap"></i><span>Scholarships</span></button>
+        <button class="sidebar-link" data-section="students"><i class="fas fa-users"></i><span>Students</span></button>
+        <button class="sidebar-link" data-section="applications"><i class="fas fa-file-alt"></i><span>Applications</span></button>
+        <button class="sidebar-link" data-section="notifications"><i class="fas fa-bell"></i><span>Notifications</span></button>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="sidebar-user"><div class="avatar">AD</div><div><strong>Admin</strong><span>Operations Lead</span></div></div>
+        <button id="logoutButton" class="sidebar-link"><i class="fas fa-right-from-bracket"></i><span>Logout</span></button>
+      </div>
+    </aside>
+
+    <main class="main-panel">
+      <div class="admin-shell">
+        <header class="admin-header">
+          <div><div class="eyebrow">Operations overview</div><h1 id="pageTitle">Dashboard</h1></div>
+          <div class="header-actions"><button class="header-btn" title="Notifications"><i class="fas fa-bell"></i></button></div>
+        </header>
+        <div class="admin-content">
+          <section id="dashboardSection" class="section-view">
+            <section class="hero-card">
+              <div><div class="eyebrow">Welcome back</div><h2>Admin</h2><p>Track scholarship performance, applications, and student engagement from one workspace.</p></div>
+              <div class="hero-metric"><strong>5</strong><span>Programs live</span></div>
+            </section>
+            <div class="stats-grid">
+              <div class="stat-card"><div class="label">Total Scholarships</div><div class="value">5</div><div class="trend up"><i class="fas fa-arrow-up"></i> 12% this month</div></div>
+              <div class="stat-card"><div class="label">Active Scholarships</div><div class="value">3</div><div class="trend up"><i class="fas fa-arrow-up"></i> 8% growth</div></div>
+              <div class="stat-card"><div class="label">Closing Soon</div><div class="value">1</div><div class="trend down"><i class="fas fa-arrow-down"></i> 3% slower</div></div>
+              <div class="stat-card"><div class="label">Registered Students</div><div class="value">5</div><div class="trend up"><i class="fas fa-arrow-up"></i> 15% engaged</div></div>
+              <div class="stat-card"><div class="label">Total Applications</div><div class="value">6</div><div class="trend up"><i class="fas fa-arrow-up"></i> 22% momentum</div></div>
+            </div>
+            <h3 class="section-title">Recent scholarships</h3>
+            <div class="list-card"><div class="thumb" style="display:grid;place-items:center;background:#dbeafe;color:#2563eb"><i class="fas fa-university"></i></div><div class="info"><h3>DAAD Scholarship Program 2025</h3><p>Technical University of Munich</p><div class="meta">Germany · Deadline 2025-12-31</div></div><span class="status open">Open</span></div>
+            <div class="list-card"><div class="thumb" style="display:grid;place-items:center;background:#ede9fe;color:#7c3aed"><i class="fas fa-building-columns"></i></div><div class="info"><h3>Chevening Scholarship</h3><p>University of Oxford</p><div class="meta">United Kingdom · Deadline 2025-11-15</div></div><span class="status closing">Closing Soon</span></div>
+          </section>
+
+          <section id="scholarshipsSection" class="section-view" hidden>
+            <h3 class="section-title">Scholarships</h3>
+            <div class="list-card"><div class="info"><h3>DAAD Scholarship Program 2025</h3><p>Technical University of Munich · Germany</p></div><span class="status open">Open</span></div>
+            <div class="list-card"><div class="info"><h3>Chevening Scholarship</h3><p>University of Oxford · United Kingdom</p></div><span class="status closing">Closing Soon</span></div>
+            <div class="list-card"><div class="info"><h3>MEXT Research Scholarship</h3><p>University of Tokyo · Japan</p></div><span class="status open">Open</span></div>
+          </section>
+
+          <section id="studentsSection" class="section-view" hidden>
+            <h3 class="section-title">Students</h3>
+            <div class="list-card"><div class="avatar">AK</div><div class="info"><h3>Ayesha Khan</h3><p>ayesha.khan@email.com · Pakistan</p></div><span class="status open">Active</span></div>
+            <div class="list-card"><div class="avatar">JW</div><div class="info"><h3>James Wilson</h3><p>james.w@email.com · USA</p></div><span class="status open">Active</span></div>
+          </section>
+
+          <section id="applicationsSection" class="section-view" hidden>
+            <h3 class="section-title">Applications</h3>
+            <div class="list-card"><div class="info"><h3>Ayesha Khan</h3><p>DAAD Scholarship Program 2025</p></div><span class="status pending">Pending</span></div>
+            <div class="list-card"><div class="info"><h3>James Wilson</h3><p>Chevening Scholarship</p></div><span class="status open">Approved</span></div>
+          </section>
+
+          <section id="notificationsSection" class="section-view" hidden>
+            <h3 class="section-title">Notifications</h3>
+            <div class="list-card"><div class="info"><h3>New scholarship added</h3><p>DAAD Scholarship Program 2025 has been published.</p></div></div>
+            <div class="list-card"><div class="info"><h3>Application approved</h3><p>James Wilson's Chevening application was approved.</p></div></div>
+          </section>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const loginView = document.getElementById("loginView");
+    const adminView = document.getElementById("adminView");
+    const loginError = document.getElementById("loginError");
+
+    function showAdmin() {
+      loginView.hidden = true;
+      adminView.hidden = false;
+    }
+
+    document.getElementById("loginForm").addEventListener("submit", (event) => {
+      event.preventDefault();
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value;
+      if (username === "admin" && password === "admin123") {
+        sessionStorage.setItem("adminDemo", "true");
+        showAdmin();
+      } else {
+        loginError.hidden = false;
+      }
+    });
+
+    document.getElementById("logoutButton").addEventListener("click", () => {
+      sessionStorage.removeItem("adminDemo");
+      adminView.hidden = true;
+      loginView.hidden = false;
+    });
+
+    document.querySelectorAll("[data-section]").forEach((button) => {
+      button.addEventListener("click", () => {
+        document.querySelectorAll("[data-section]").forEach((item) => item.classList.remove("active"));
+        button.classList.add("active");
+        document.querySelectorAll(".section-view").forEach((section) => section.hidden = true);
+        document.getElementById(button.dataset.section + "Section").hidden = false;
+        document.getElementById("pageTitle").textContent =
+          button.dataset.section.charAt(0).toUpperCase() + button.dataset.section.slice(1);
+      });
+    });
+
+    if (sessionStorage.getItem("adminDemo") === "true") showAdmin();
+  </script>
+</body>
+</html>
