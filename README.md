@@ -1,6 +1,18 @@
 # Scholarship Bridge Admin
 
-Mobile-first admin portal for managing scholarships, students, and applications.
+A mobile-first Flask administration portal for managing scholarships, students, applications, notifications, and institutional settings.
+
+![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white)
+![Flask](https://img.shields.io/badge/Flask-000000?logo=flask&logoColor=white)
+
+## Features
+
+- Scholarship dashboard with recent activity and application statistics
+- Create, edit, view, and delete scholarship opportunities
+- Student profiles and application records
+- Application status workflow
+- Notifications feed
+- Mobile-friendly administration interface
 
 ## Run locally
 
@@ -11,7 +23,9 @@ python app.py
 
 Open **http://localhost:5000/admin**
 
-**Login:** `admin` / `admin123`
+**Demo login:** `admin` / `admin123`
+
+> Change the demo credentials and configure a secure `SECRET_KEY` before production use.
 
 ## Deploy to Render
 
@@ -21,11 +35,11 @@ Open **http://localhost:5000/admin**
 4. Start: `gunicorn app:app`
 5. Set `SECRET_KEY` environment variable
 
-## Screens
+## Key screens
 
-- Dashboard with stats & recent scholarships
-- Scholarships list, add, edit, delete, details
-- Students list & profiles
-- Applications with status tabs
-- Notifications feed
-- Settings & More menu
+- Dashboard
+- Scholarship management
+- Student profiles
+- Application status tabs
+- Notifications
+- Settings
